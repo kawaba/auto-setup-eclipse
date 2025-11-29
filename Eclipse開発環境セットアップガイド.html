@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eclipse 開発環境 自動セットアップガイド</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Yu Gothic", "Meiryo", sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #3498db;
+            font-size: 1.6em;
+        }
+
+        h3 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        h4 {
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .info-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .warning-box {
+            background-color: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .success-box {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .note {
+            background-color: #f1f8ff;
+            border: 1px solid #c8e1ff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .note::before {
+            content: "💡 ";
+            font-weight: bold;
+        }
+
+        blockquote {
+            border-left: 4px solid #ddd;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 40px 0;
+        }
+
+        .toc {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .toc h2 {
+            margin-top: 0;
+            font-size: 1.4em;
+            border: none;
+            padding: 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc li {
+            margin-bottom: 8px;
+        }
+
+        .toc a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .step-number {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+            }
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            h2 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Eclipse 開発環境 自動セットアップガイド</h1>
+
+        <div class="toc">
+            <h2>📑 目次</h2>
+            <ul>
+                <li><a href="#about">このツールについて</a></li>
+                <li><a href="#requirements">必要な環境</a></li>
+                <li><a href="#files">ファイル構成</a></li>
+                <li><a href="#setup">セットアップ手順</a></li>
+                <li><a href="#verify">セットアップ完了後の確認</a></li>
+                <li><a href="#troubleshooting">トラブルシューティング</a></li>
+                <li><a href="#additional">補足情報</a></li>
+                <li><a href="#next">次のステップ</a></li>
+            </ul>
+        </div>
+
+        <h2 id="about">📌 このツールについて</h2>
+        <p>このツールは、Javaプログラミングに必要な開発環境を<strong>自動的に</strong>セットアップします。</p>
+
+        <h3>セットアップされる内容</h3>
+        <ol>
+            <li><strong>Eclipse 2025-09</strong> - プログラムを書くためのソフトウェア(統合開発環境)</li>
+            <li><strong>JDK 25</strong> - Javaプログラムを動かすために必要なソフトウェア</li>
+            <li><strong>日本語化</strong> - Eclipseのメニューなどを日本語にします</li>
+            <li><strong>開発用プラグイン</strong> - Spring Bootなどの便利な機能を追加します</li>
+            <li><strong>GitHub Copilot</strong> - AIがプログラミングを手伝ってくれる機能</li>
+            <li><strong>見やすい設定</strong> - フォントや色を読みやすく設定します</li>
+        </ol>
+
+        <hr>
+
+        <h2 id="requirements">🖥️ 必要な環境</h2>
+        <ul>
+            <li><strong>OS</strong>: Windows 10 または Windows 11</li>
+            <li><strong>インターネット接続</strong>: セットアップ時に必要です(約2GB程度ダウンロードします)</li>
+            <li><strong>ディスク容量</strong>: 約5GB以上の空き容量</li>
+            <li><strong>権限</strong>: 管理者権限は不要ですが、PowerShellスクリプトの実行許可が必要です</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="files">📁 ファイル構成</h2>
+        <p>セットアップに使用するファイルはeclipse-2025フォルダにあります:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ファイル名</th>
+                    <th>説明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>setup.bat</code></td>
+                    <td>Eclipseとその基本設定をインストールするファイル(初心者向け)</td>
+                </tr>
+                <tr>
+                    <td><code>setup.ps1</code></td>
+                    <td>実際のセットアップ処理を行うファイル</td>
+                </tr>
+                <tr>
+                    <td><code>plugins.bat</code></td>
+                    <td>プラグインをインストールするファイル(初心者向け)</td>
+                </tr>
+                <tr>
+                    <td><code>plugins.ps1</code></td>
+                    <td>実際のプラグインインストール処理を行うファイル</td>
+                </tr>
+                <tr>
+                    <td><code>font-color-compiler-java25.epf</code></td>
+                    <td>フォントや色の設定ファイル</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            <strong>補足:</strong> <code>.bat</code>ファイルはダブルクリックで実行できる簡単なファイルです。<code>.ps1</code>ファイルは実際の処理を行う本体です。
+        </div>
+
+        <hr>
+
+        <h2 id="setup">🚀 セットアップ手順</h2>
+
+        <h3><span class="step-number">1</span>ステップ1: 基本インストール</h3>
+
+        <ol>
+            <li>
+                <strong>ダウンロードしたauto-setup-eclipse-2025.zipを任意の場所に展開します</strong>
+                <ul>
+                    <li><code>C:\work</code>や<code>D:\temp</code>などを推奨します</li>
+                    <li>workやtempなどのフォルダを作ってから展開するといいでしょう</li>
+                </ul>
+            </li>
+            <li>
+                <strong><code>eclipse-2025/setup.bat</code>をダブルクリック</strong>
+                <ul>
+                    <li>黒い画面(コマンドプロンプト)が開きます</li>
+                    <li>自動的にダウンロードとインストールが始まります</li>
+                    <li><strong>所要時間</strong>: 約5〜15分(インターネット速度による)</li>
+                </ul>
+            </li>
+            <li>
+                <strong>完了メッセージを確認</strong>
+                <pre><code>=== セットアップ完了! ===
+Eclipse を eclipse/eclipse.exe から起動してください。
+
+次に: install-plugins.bat を実行してプラグインをインストールしてください。</code></pre>
+                <ul>
+                    <li>この表示が出たら、何かキーを押して画面を閉じます</li>
+                </ul>
+            </li>
+        </ol>
+
+        <hr>
+
+        <h3><span class="step-number">2</span>ステップ2: 初回起動(重要!)</h3>
+
+        <div class="warning-box">
+            <strong>⚠️ 重要:</strong> プラグインをインストールする前に、必ずこの手順を実行してください。
+        </div>
+
+        <ol>
+            <li>
+                <strong>Eclipseを起動</strong>
+                <ul>
+                    <li><code>eclipse-2025</code>フォルダ内に作成された<code>eclipse</code>フォルダを開きます</li>
+                    <li><code>eclipse.exe</code>をダブルクリックします</li>
+                </ul>
+            </li>
+            <li>
+                <strong>ワークスペースの選択</strong>
+                <ul>
+                    <li>「Eclipseランチャー」という画面が表示されます</li>
+                    <li>「ワークスペース」の入力欄に以下を入力:</li>
+                </ul>
+                <pre><code>../workspace</code></pre>
+                <ul>
+                    <li><code>[起動]</code>ボタンをクリックします</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Eclipseが完全に起動するのを待つ</strong>
+                <ul>
+                    <li>ようこそ画面や日本語化されたメニューが表示されます</li>
+                    <li><strong>何も操作せず</strong>、そのままEclipseを終了します</li>
+                    <li>メニューから<code>ファイル</code> → <code>終了</code>を選択</li>
+                </ul>
+            </li>
+        </ol>
+
+        <div class="note">
+            <strong>なぜこの手順が必要?</strong> 初回起動時に設定ファイルが作成されます。これがないとプラグインのインストールに失敗します。
+        </div>
+
+        <hr>
+
+        <h3><span class="step-number">3</span>ステップ3: プラグインのインストール</h3>
+
+        <ol>
+            <li>
+                <strong><code>eclipse-2025/plugins.bat</code>をダブルクリック</strong>
+                <ul>
+                    <li>黒い画面が開き、重要な確認メッセージが表示されます</li>
+                </ul>
+            </li>
+            <li>
+                <strong>確認メッセージを読む</strong>
+                <pre><code>重要: Eclipseを一度起動して終了しましたか?
+(初回起動で設定ファイルが作成されます)
+
+はい [Y] / いいえ [N]</code></pre>
+                <ul>
+                    <li>ステップ2を完了していたら<code>Y</code>と入力してEnterキーを押します</li>
+                    <li>まだの場合は<code>N</code>と入力し、ステップ2に戻ります</li>
+                </ul>
+            </li>
+            <li>
+                <strong>インストール開始</strong>
+                <ul>
+                    <li>自動的に以下のプラグインがインストールされます:
+                        <ul>
+                            <li>Web開発ツール</li>
+                            <li>Spring Tools 4(Spring Boot開発用)</li>
+                            <li>GitHub Copilot(AI支援)</li>
+                            <li>Java 25サポート</li>
+                        </ul>
+                    </li>
+                    <li><strong>所要時間</strong>: 約5〜10分</li>
+                </ul>
+            </li>
+            <li>
+                <strong>インストール結果を確認</strong>
+                <pre><code>============================================
+インストール完了
+============================================
+成功: 13 個
+失敗: 0 個</code></pre>
+                <ul>
+                    <li>すべて成功していれば、次のステップに進みます</li>
+                    <li>一部失敗している場合は、<code>plugin-install.log</code>ファイルを確認します</li>
+                </ul>
+            </li>
+            <li>
+                <strong>自動クリーンアップ</strong>
+                <ul>
+                    <li>「何かキーを押すと...クリーンアップを実行します」と表示されます</li>
+                    <li>キーを押すと、一時ファイルやスクリプトが自動的に削除されます</li>
+                    <li>最終的に<code>eclipse</code>フォルダと<code>workspace</code>フォルダだけが残ります</li>
+                </ul>
+            </li>
+        </ol>
+
+        <hr>
+
+        <h3><span class="step-number">4</span>ステップ4: フォント・色の設定</h3>
+
+        <ol>
+            <li>
+                <strong>Eclipseを起動</strong>
+                <ul>
+                    <li><code>eclipse/eclipse.exe</code>をダブルクリック</li>
+                    <li>ワークスペースは<code>../workspace</code>と入力(前回と同じ)</li>
+                </ul>
+            </li>
+            <li>
+                <strong>設定のインポート</strong>
+                <ul>
+                    <li>メニューから<code>ファイル</code> → <code>インポート</code>を選択</li>
+                    <li><code>一般</code> → <code>設定</code>を選び、<code>[次へ]</code>をクリック</li>
+                </ul>
+            </li>
+            <li>
+                <strong>設定ファイルを選択</strong>
+                <ul>
+                    <li><code>[参照]</code>ボタンをクリック</li>
+                    <li><code>eclipse/font-color-compiler-java25.epf</code>を選択</li>
+                    <li><code>[開く]</code>をクリック</li>
+                </ul>
+            </li>
+            <li>
+                <strong>インポートを実行</strong>
+                <ul>
+                    <li><code>[完了]</code>ボタンをクリック</li>
+                    <li>「再起動が必要」というメッセージが表示されます</li>
+                    <li><code>[再開]</code>をクリックしてEclipseを再起動</li>
+                </ul>
+            </li>
+            <li>
+                <strong>設定完了!</strong>
+                <ul>
+                    <li>再起動後、フォントが見やすく、構文の色分けが設定されています</li>
+                </ul>
+            </li>
+        </ol>
+
+        <hr>
+
+        <h2 id="verify">✅ セットアップ完了後の確認</h2>
+        <p>セットアップを確認したい場合は次のようにしてください:</p>
+
+        <h3>1. 日本語化の確認</h3>
+        <ul>
+            <li>メニューが日本語になっていますか?</li>
+            <li><code>ファイル</code>、<code>編集</code>、<code>表示</code>などと表示されていればOK</li>
+        </ul>
+
+        <h3>2. Javaバージョンの確認</h3>
+        <ul>
+            <li>メニュー: <code>ヘルプ</code> → <code>Eclipseについて</code> → <code>インストール詳細</code></li>
+            <li>Java 25が使用されているか確認</li>
+        </ul>
+
+        <h3>3. Spring Toolsの確認</h3>
+        <ul>
+            <li>メニュー: <code>ヘルプ</code> → <code>Eclipseマーケットプレース</code>で「Spring」と検索</li>
+            <li>すでにインストール済みと表示されればOK</li>
+        </ul>
+
+        <h3>4. GitHub Copilotの確認</h3>
+        <ul>
+            <li>メニュー: <code>ウィンドウ</code> → <code>設定</code> → <code>GitHub Copilot</code></li>
+            <li>設定項目が表示されればOK(ログインは別途必要)</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="troubleshooting">🔧 トラブルシューティング</h2>
+
+        <h3>Q1. 「このシステムではスクリプトの実行が無効になっています」と表示される</h3>
+        <p><strong>原因:</strong> PowerShellのセキュリティ設定</p>
+        <p><strong>解決方法:</strong></p>
+        <ol>
+            <li>PowerShellを<strong>管理者として実行</strong></li>
+            <li>以下のコマンドを入力:
+                <pre><code>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
+            </li>
+            <li><code>Y</code>を入力してEnter</li>
+            <li>もう一度<code>setup.bat</code>を実行</li>
+        </ol>
+
+        <hr>
+
+        <h3>Q2. ダウンロードが途中で止まる・失敗する</h3>
+        <p><strong>原因:</strong> インターネット接続の問題、またはファイアウォール</p>
+        <p><strong>解決方法:</strong></p>
+        <ol>
+            <li>インターネット接続を確認</li>
+            <li>ファイアウォールやウイルス対策ソフトを一時的に無効化</li>
+            <li>企業ネットワークの場合、プロキシ設定が必要な場合があります</li>
+            <li><code>temp</code>フォルダを削除してから再実行</li>
+        </ol>
+
+        <hr>
+
+        <h3>Q3. プラグインのインストールに失敗する</h3>
+        <p><strong>原因:</strong> Eclipseを一度も起動していない、またはネットワーク問題</p>
+        <p><strong>解決方法:</strong></p>
+        <ol>
+            <li><strong>必ずステップ2(初回起動)を実行済みか確認</strong></li>
+            <li><code>plugin-install.log</code>ファイルでエラー内容を確認</li>
+            <li>Eclipseが完全に終了しているか確認(タスクマネージャーで確認)</li>
+            <li>再度<code>plugins.bat</code>を実行</li>
+        </ol>
+
+        <hr>
+
+        <h3>Q4. Eclipseが起動しない・エラーが出る</h3>
+        <p><strong>原因:</strong> Javaの設定問題、またはファイルの破損</p>
+        <p><strong>解決方法:</strong></p>
+        <ol>
+            <li><code>eclipse/eclipse.ini</code>ファイルが正しく書き換えられているか確認</li>
+            <li><code>temp</code>フォルダを削除して、最初からやり直す</li>
+            <li>アンチウイルスソフトがファイルを削除していないか確認</li>
+        </ol>
+
+        <hr>
+
+        <h3>Q5. 日本語が表示されない</h3>
+        <p><strong>原因:</strong> Pleiades(日本語化プラグイン)の問題</p>
+        <p><strong>解決方法:</strong></p>
+        <ol>
+            <li><code>eclipse/plugins</code>フォルダ内に<code>jp.sourceforge.mergedoc.pleiades</code>があるか確認</li>
+            <li><code>eclipse/eclipse.ini</code>の最後に以下の行があるか確認:
+                <pre><code>-javaagent:plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar</code></pre>
+            </li>
+            <li>ない場合は手動で追加して再起動</li>
+        </ol>
+
+        <hr>
+
+        <h2 id="additional">📝 補足情報</h2>
+
+        <h3>ワークスペースについて</h3>
+        <p><strong>ワークスペースとは?</strong></p>
+        <ul>
+            <li>プロジェクト(作成したプログラム)を保存する場所です</li>
+            <li>推奨: <code>../workspace</code>(Eclipseフォルダと同じ階層)</li>
+        </ul>
+
+        <p><strong>複数のワークスペースを使う場合</strong></p>
+        <ul>
+            <li>初回に<code>../workspace-project1</code>などと指定</li>
+            <li>後から変更も可能: <code>ファイル</code> → <code>ワークスペースの切り替え</code></li>
+        </ul>
+
+        <hr>
+
+        <h3>GitHub Copilotを使うには</h3>
+        <p>GitHub Copilotはインストールされていますが、使用するには:</p>
+        <ol>
+            <li>
+                <strong>GitHubアカウントが必要</strong>
+                <ul>
+                    <li>学生は無料で使用可能(GitHub Student Developer Pack)</li>
+                    <li>それ以外は有料プラン($10/月)</li>
+                </ul>
+            </li>
+            <li>
+                <strong>ログイン方法</strong>
+                <ul>
+                    <li>Eclipse起動後、<code>ウィンドウ</code> → <code>設定</code> → <code>GitHub Copilot</code></li>
+                    <li><code>Sign in</code>ボタンでGitHubにログイン</li>
+                </ul>
+            </li>
+        </ol>
+
+        <hr>
+
+        <h3>フォント設定について</h3>
+        <p>設定ファイル(<code>font-color-compiler-java25.epf</code>)では以下が設定されます:</p>
+        <ul>
+            <li><strong>フォント</strong>: UDデジタル教科書体 N (読みやすいフォント)</li>
+            <li><strong>サイズ</strong>: 14.25ポイント</li>
+            <li><strong>構文の色分け</strong>: Javaコードが見やすく色分けされます</li>
+            <li><strong>コンパイラ</strong>: Java 25用に設定</li>
+        </ul>
+
+        <div class="note">
+            <strong>ヒント:</strong> フォントが表示されない場合、システムにフォントがインストールされていません。<code>メイリオ</code>や<code>MS ゴシック</code>に変更してください。
+        </div>
+
+        <hr>
+
+        <h3>バックアップとアンインストール</h3>
+        <p><strong>バックアップ</strong></p>
+        <ul>
+            <li><code>workspace</code>フォルダをコピーすれば、作成したプロジェクトを保存できます</li>
+        </ul>
+
+        <p><strong>アンインストール</strong></p>
+        <ul>
+            <li>Eclipseはインストーラーを使わないので、フォルダごと削除すればOKです</li>
+            <li>削除するフォルダ: <code>eclipse</code>と<code>workspace</code></li>
+        </ul>
+
+        <hr>
+
+        <h2 id="next">🎓 次のステップ</h2>
+        <p>セットアップが完了したら、以下を試してみましょう:</p>
+
+        <ol>
+            <li>
+                <strong>新しいJavaプロジェクトを作成</strong>
+                <ul>
+                    <li><code>ファイル</code> → <code>新規</code> → <code>Javaプロジェクト</code></li>
+                </ul>
+            </li>
+            <li>
+                <strong>Spring Bootプロジェクトを作成</strong>
+                <ul>
+                    <li><code>ファイル</code> → <code>新規</code> → <code>Spring スターター・プロジェクト</code></li>
+                </ul>
+            </li>
+            <li>
+                <strong>GitHub Copilotを試す</strong>
+                <ul>
+                    <li>Javaファイルでコメントを書くと、AIがコードを提案してくれます</li>
+                </ul>
+            </li>
+        </ol>
+
+        <hr>
+
+        <h2>📞 サポート・参考資料</h2>
+
+        <h3>公式ドキュメント</h3>
+        <ul>
+            <li><strong>Eclipse公式</strong>: <a href="https://www.eclipse.org/" target="_blank">https://www.eclipse.org/</a></li>
+            <li><strong>Spring公式</strong>: <a href="https://spring.io/" target="_blank">https://spring.io/</a></li>
+            <li><strong>GitHub Copilot</strong>: <a href="https://github.com/features/copilot" target="_blank">https://github.com/features/copilot</a></li>
+        </ul>
+
+        <h3>よくある質問</h3>
+        <p><strong>Q: セットアップにどのくらい時間がかかりますか?</strong><br>
+        A: 合計で約15〜30分程度です(インターネット速度による)</p>
+
+        <p><strong>Q: 既存のEclipseがある場合はどうすればいいですか?</strong><br>
+        A: このツールは別フォルダにインストールされるので、既存の環境には影響しません</p>
+
+        <p><strong>Q: エラーが出て進めません</strong><br>
+        A: <code>plugin-install.log</code>の内容を確認するか、最初からやり直してみてください</p>
+
+        <hr>
+
+        <h2>📌 まとめ</h2>
+        <div class="success-box">
+            <p>このセットアップツールを使えば、面倒な設定作業なしで、すぐにJava・Spring Boot開発を始められます!</p>
+        </div>
+
+        <p><strong>セットアップの流れ(おさらい):</strong></p>
+        <ol>
+            <li>✅ <code>setup.bat</code>を実行 → Eclipse本体をインストール</li>
+            <li>✅ Eclipseを一度起動して終了 → 設定ファイル作成</li>
+            <li>✅ <code>plugins.bat</code>を実行 → 開発用プラグインをインストール</li>
+            <li>✅ Eclipseで設定をインポート → フォント・色を設定</li>
+            <li>🎉 完了!</li>
+        </ol>
+
+        <hr>
+
+        <p style="text-align: center; color: #666; margin-top: 40px;">
+            <strong>最終更新:</strong> 2025年11月<br>
+            <strong>対象バージョン:</strong> Eclipse 2025-09 / JDK 25 / Spring Tools 4
+        </p>
+    </div>
+</body>
+</html>

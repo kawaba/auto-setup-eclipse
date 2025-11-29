@@ -1,0 +1,35 @@
+#Eclipse Preferences - Font, Color, and Java 25 Compiler Settings
+#Fri Nov 21 14:28:56 JST 2025
+\!/=
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.codegen.targetPlatform=25
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.compliance=25
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.enablePreviewFeatures=disabled
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.enumIdentifier=error
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.reportPreviewFeatures=warning
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.release=enabled
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.source=25
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.taskCaseSensitive=enabled
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.taskPriorities=NORMAL,HIGH,NORMAL
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.taskTags=TODO,FIXME,XXX
+/instance/org.eclipse.jdt.ui/content_assist_proposals_background=255,255,255
+/instance/org.eclipse.jdt.ui/content_assist_proposals_foreground=0,0,0
+/instance/org.eclipse.jdt.ui/semanticHighlighting.staticField.bold=true
+/instance/org.eclipse.jdt.ui/semanticHighlighting.staticField.color=9,104,249
+/instance/org.eclipse.jdt.ui/semanticHighlighting.staticField.italic=false
+/instance/org.eclipse.jdt.ui/semanticHighlighting.staticFinalField.color=0,104,208
+/instance/org.eclipse.jdt.ui/semanticHighlighting.staticFinalField.italic=false
+/instance/org.eclipse.jdt.ui/semanticHighlighting.staticMethodInvocation.bold=true
+/instance/org.eclipse.jdt.ui/semanticHighlighting.staticMethodInvocation.color=0,128,255
+/instance/org.eclipse.jdt.ui/semanticHighlighting.staticMethodInvocation.italic=false
+/instance/org.eclipse.jdt.ui/sourceHoverBackgroundColor=255,255,225
+/instance/org.eclipse.ui.workbench/ColorsAndFontsPreferencePage.expandedCategories=Torg.eclipse.jdt.ui.presentation\tTorg.springsource.ide.eclipse.commons.ui\tTterminal.views.theme.category\tTorg.eclipse.debug.ui.presentation\tTorg.eclipse.ui.presentation.default\tTorg.eclipse.ui.workbenchMisc\tTorg.eclipse.wst.sse.ui
+/instance/org.eclipse.ui.workbench/ColorsAndFontsPreferencePage.selectedElement=Forg.eclipse.jface.dialogfont
+/instance/org.eclipse.ui.workbench/org.eclipse.debug.ui.consoleFont=1|UD \u30C7\u30B8\u30BF\u30EB \u6559\u79D1\u66F8\u4F53 N|14.25|0|WINDOWS|1|-19|0|0|0|400|0|0|0|-128|3|2|1|17|UD \u30C7\u30B8\u30BF\u30EB \u6559\u79D1\u66F8\u4F53 N;
+/instance/org.eclipse.ui.workbench/org.eclipse.jdt.ui.PropertiesFileEditor.textfont=1|UD \u30C7\u30B8\u30BF\u30EB \u6559\u79D1\u66F8\u4F53 N-R|4.0|0|WINDOWS|1|0|0|0|0|0|0|0|0|1|0|0|0|0|UD \u30C7\u30B8\u30BF\u30EB \u6559\u79D1\u66F8\u4F53 N-R;
+/instance/org.eclipse.ui.workbench/org.eclipse.jdt.ui.editors.textfont=1|UD \u30C7\u30B8\u30BF\u30EB \u6559\u79D1\u66F8\u4F53 N|14.25|0|WINDOWS|1|-19|0|0|0|400|0|0|0|-128|3|2|1|17|UD \u30C7\u30B8\u30BF\u30EB \u6559\u79D1\u66F8\u4F53 N;
+/instance/org.eclipse.ui.workbench/org.eclipse.jdt.ui.javadocfont=1|UD \u30C7\u30B8\u30BF\u30EB \u6559\u79D1\u66F8\u4F53 N|14.25|0|WINDOWS|1|-19|0|0|0|400|0|0|0|-128|3|2|1|17|UD \u30C7\u30B8\u30BF\u30EB \u6559\u79D1\u66F8\u4F53 N;
+/instance/org.eclipse.ui.workbench/org.eclipse.wst.sse.ui.textfont=1|UD \u30C7\u30B8\u30BF\u30EB \u6559\u79D1\u66F8\u4F53 N|14.25|0|WINDOWS|1|-19|0|0|0|400|0|0|0|-128|3|2|1|17|UD \u30C7\u30B8\u30BF\u30EB \u6559\u79D1\u66F8\u4F53 N;
+/instance/org.eclipse.wst.jsdt.ui/fontPropagated=true
+file_export_version=3.0
