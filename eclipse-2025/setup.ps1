@@ -8,7 +8,9 @@ $WorkDir = Join-Path $BaseDir "temp"
 if (!(Test-Path $WorkDir)) { New-Item -ItemType Directory -Path $WorkDir | Out-Null }
 
 # Eclipse 2025-09
-$EclipseUrl = "https://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/2025-09/R/eclipse-java-2025-09-R-win32-x86_64.zip"
+#$EclipseUrl = "https://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/2025-09/R/eclipse-java-2025-09-R-win32-x86_64.zip"
+$EclipseUrl =  "https://ftp.jaist.ac.jp/pub/eclipse/technology/epp/downloads/release/2025-12/R/eclipse-java-2025-12-R-win32-x86_64.zip"
+
 $EclipseZip = "$WorkDir\eclipse.zip"
 
 # JDK 25(Temurin)
@@ -21,7 +23,7 @@ $PleiadesZip = "$WorkDir\pleiades.zip"
 
 $EclipseDir = "$BaseDir\eclipse"
 
-Write-Host "=== Eclipse 2024-09 + JDK 25 セットアップ開始 ===" -ForegroundColor Cyan
+Write-Host "=== Eclipse 2025-12 + JDK 25 セットアップ開始 ===" -ForegroundColor Cyan
 
 # ===========================================
 # ダウンロード関数

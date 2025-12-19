@@ -97,22 +97,12 @@ $plugins = @(
 
     # Spring Tools 4(Eclipse 2024-09 / 4.33専用リポジトリ)
     @{ Name = "Spring Tools 4 Main Feature"; IU = "org.springframework.boot.ide.main.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/4.32.2.RELEASE/e4.37/" },
-
-#   @{ Name = "Spring Boot Language Server"; IU = "org.springframework.tooling.boot.ls.feature";               Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/e4.37/" },
-#   @{ Name = "Spring Boot Language Server"; IU = "org.springframework.tooling.boot.ls.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/latest/"  },
-#   @{ Name = "Spring Boot Language Server"; IU = "org.springframework.tooling.boot.ls.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/4.32.2.RELEASE/e4.37/" },
     @{ Name = "Spring Boot Language Server"; IU = "org.springframework.tooling.boot.ls.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/latest/,https://download.eclipse.org/releases/latest/" },
-
-#   @{ Name = "Spring Boot Dashboard"; IU = "org.springframework.ide.eclipse.boot.dash.feature";               Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/e4.37/" },
-#   @{ Name = "Spring Boot Dashboard"; IU = "org.springframework.ide.eclipse.boot.dash.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/latest/" },
-#   @{ Name = "Spring Boot Dashboard"; IU = "org.springframework.ide.eclipse.boot.dash.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/4.32.2.RELEASE/e4.37/" },
     @{ Name = "Spring Boot Dashboard"; IU = "org.springframework.ide.eclipse.boot.dash.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/latest/,https://download.eclipse.org/releases/latest/" },
 
     # GitHub Copilot
-    @{ Name = "GitHub Copilot"; IU = "com.microsoft.copilot.eclipse.feature.feature.group"; Repo = "https://azuredownloads-g3ahgwb5b8bkbxhd.b01.azurefd.net/github-copilot/" },
+    @{ Name = "GitHub Copilot"; IU = "com.microsoft.copilot.eclipse.feature.feature.group"; Repo = "https://azuredownloads-g3ahgwb5b8bkbxhd.b01.azurefd.net/github-copilot/" }
     
-    # Java 25 Support
-    @{ Name = "Java 25 Support"; IU = "org.eclipse.jdt.javanextpatch.feature.group"; Repo = "https://download.eclipse.org/jdt/updates/4.37-P-builds/" }
 )
 
 $successCount = 0
