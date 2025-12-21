@@ -12,7 +12,7 @@ echo.
 echo プラグインは、Eclipse起動後に別途インストールが必要です。
 echo.
 pause
-
+powershell.exe -ExecutionPolicy Bypass -Command "Unblock-File -Path '%~dp0setup.ps1'"
 powershell.exe -ExecutionPolicy Bypass -File "%~dp0setup.ps1"
 
 echo.

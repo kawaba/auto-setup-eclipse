@@ -17,5 +17,5 @@ echo プラグインのインストールに失敗します。
 echo.
 echo ============================================
 pause
-
+powershell.exe -ExecutionPolicy Bypass -Command "Unblock-File -Path '%~dp0plugins.ps1'"
 powershell.exe -ExecutionPolicy Bypass -File "%~dp0plugins.ps1"
