@@ -1,0 +1,368 @@
+/* =========================================================
+   全体のベース設定
+   ========================================================= */
+body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* タイトル */
+h1 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 8px;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+/* フォーム全体をカード風にまとめる */
+form {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   テーブルレイアウト
+   ========================================================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+}
+
+tr {
+    border-bottom: 1px solid #eaeaea;
+}
+
+tr:last-child {
+    border-bottom: none;
+}
+
+td {
+    padding: 14px 8px;
+    vertical-align: middle;
+}
+
+/* 項目名（左側のセル） */
+td:first-child {
+    width: 25%;
+    font-weight: bold;
+    color: #555;
+    white-space: nowrap;
+}
+
+/* 入力欄・エラーメッセージ（右側のセル） */
+td:last-child {
+    width: 75%;
+}
+
+/* formの外（bodyの直下）に置かれたテーブル：詳細表示画面など */
+body > table {
+    max-width: 600px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-collapse: separate;   /* 角丸を効かせるため */
+    border-spacing: 0;
+    overflow: hidden;
+}
+
+/* separate では tr の下線が出ないため、セル側に下線を引く */
+body > table td {
+    padding: 14px 24px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+body > table tr:last-child td {
+    border-bottom: none;
+}
+
+/* =========================================================
+   1行入力欄・セレクト・テキストエリアの共通デザイン
+   ========================================================= */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="number"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"],
+input[type="month"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #333;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="datetime-local"]:focus,
+input[type="time"]:focus,
+input[type="month"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+/* ---------- セレクト（ドロップダウン） ---------- */
+select {
+    -webkit-appearance: none;
+    appearance: none;
+    padding-right: 40px;               /* 矢印のスペース */
+    cursor: pointer;
+    /* 独自の下向き矢印 */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 12px 8px;
+}
+
+select:hover {
+    border-color: #94a3b8;
+}
+
+/* 複数選択・リスト表示のセレクトは矢印を出さない */
+select[multiple],
+select[size]:not([size="1"]) {
+    background-image: none;
+    padding-right: 12px;
+    cursor: default;
+}
+
+select option {
+    padding: 4px 8px;
+}
+
+/* ---------- テキストエリア ---------- */
+textarea {
+    min-height: 120px;
+    resize: vertical;                  /* 縦方向のみサイズ変更可 */
+}
+
+/* ---------- プレースホルダー ---------- */
+::placeholder {
+    color: #a0aec0;
+}
+
+/* =========================================================
+   ラジオボタン・チェックボックス
+   ========================================================= */
+input[type="radio"],
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    margin: 0 6px 0 16px;              /* 左：前の選択肢との間隔／右：文字との間隔 */
+    border: 2px solid #cbd5e1;
+    background-color: #ffffff;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+    display: inline-grid;
+    place-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+/* セル内の最初の選択肢は左余白なし */
+input[type="radio"]:first-of-type,
+input[type="checkbox"]:first-of-type {
+    margin-left: 0;
+}
+
+input[type="radio"]:hover,
+input[type="checkbox"]:hover {
+    border-color: #3498db;
+}
+
+input[type="radio"]:focus-visible,
+input[type="checkbox"]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+}
+
+/* ---------- ラジオボタン ---------- */
+input[type="radio"] {
+    border-radius: 50%;
+}
+
+input[type="radio"]::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #3498db;
+    transform: scale(0);
+    transition: transform 0.15s ease-in-out;
+}
+
+input[type="radio"]:checked {
+    border-color: #3498db;
+}
+
+input[type="radio"]:checked::before {
+    transform: scale(1);
+}
+
+/* ---------- チェックボックス ---------- */
+input[type="checkbox"] {
+    border-radius: 4px;
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    width: 4px;
+    height: 9px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) scale(0);
+    margin-top: -2px;
+    transition: transform 0.15s ease-in-out;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+input[type="checkbox"]:checked::before {
+    transform: rotate(45deg) scale(1);
+}
+
+/* ---------- <label> で囲んだ場合の整列 ----------
+   例：<label><input type="radio" name="size"> 大きい</label> */
+td label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 18px 4px 0;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+td label > input[type="radio"],
+td label > input[type="checkbox"] {
+    margin: 0;
+    top: 0;
+}
+
+/* =========================================================
+   無効状態（disabled）
+   ========================================================= */
+input:disabled,
+select:disabled,
+textarea:disabled {
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+input[type="radio"]:disabled,
+input[type="checkbox"]:disabled {
+    border-color: #e2e8f0;
+}
+
+/* =========================================================
+   エラーメッセージ（class="msg"）
+   ========================================================= */
+.msg {
+    display: block;
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 6px;
+}
+
+/* =========================================================
+   ボタン
+   ========================================================= */
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button {
+    padding: 10px 24px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* 送信ボタン（主要アクション）
+   type を省略した <button> も送信ボタンとして扱う */
+input[type="submit"],
+button[type="submit"],
+button:not([type]) {
+    background-color: #3498db;
+    color: #ffffff;
+    margin-right: 10px;
+}
+
+input[type="submit"]:hover,
+button[type="submit"]:hover,
+button:not([type]):hover {
+    background-color: #2980b9;
+}
+
+/* 戻る・リセットなどの補助ボタン */
+input[type="reset"],
+input[type="button"],
+button[type="reset"],
+button[type="button"] {
+    background-color: #95a5a6;
+    color: #ffffff;
+}
+
+input[type="reset"]:hover,
+input[type="button"]:hover,
+button[type="reset"]:hover,
+button[type="button"]:hover {
+    background-color: #7f8c8d;
+}
+
+/* aタグでボタンを囲んでいる場合のレイアウト調整 */
+form > a {
+    display: inline-block;
+    text-decoration: none;
+}
+/* 改行を含むテキストをそのまま表示する */
+.改行保持 {
+  white-space: pre-wrap;
+}
