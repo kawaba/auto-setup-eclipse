@@ -154,6 +154,92 @@ Copy-Item "$WorkDir\pleiades\plugins"  -Destination $EclipseDir -Recurse -Force
 Copy-Item "$WorkDir\pleiades\features" -Destination $EclipseDir -Recurse -Force
 
 # ===========================================
+# PlemolJP HS フォント (SPD 表示用) のインストール
+#   epf で エディタ/コンソール のフォントに指定しているため必要
+#   Regular と Bold のみ、ユーザー単位でインストール (管理者権限不要)
+#   失敗しても Eclipse のセットアップは続行する
+# ===========================================
+$FontVersion = "v3.1.0"
+$FontUrl     = "https://github.com/yuru7/PlemolJP/releases/download/$FontVersion/PlemolJP_HS_$FontVersion.zip"
+$FontSha256  = "3DA6BAFA30BD51BD6A7AB9C2CADC21B005565F4AF5099DF02B54E6EB5C9CAF85"
+$FontZip     = "$WorkDir\PlemolJP_HS.zip"
+# zip 内のパス => レジストリの値名
+$FontFiles = [ordered]@{
+    "PlemolJP_HS_$FontVersion/PlemolJP_HS/PlemolJPHS-Regular.ttf" = "PlemolJP HS Regular (TrueType)"
+    "PlemolJP_HS_$FontVersion/PlemolJP_HS/PlemolJPHS-Bold.ttf"    = "PlemolJP HS Bold (TrueType)"
+}
+
+function Test-FontInstalled($valueName) {
+    $pattern = ($valueName -replace " \(TrueType\)$", "") + "*"
+    foreach ($key in @("HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts",
+                       "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts")) {
+        if (Test-Path $key) {
+            $props = (Get-ItemProperty $key).PSObject.Properties | Where-Object { $_.Name -like $pattern }
+            if ($props) { return $true }
+        }
+    }
+    return $false
+}
+
+$MissingFonts = @($FontFiles.Keys | Where-Object { -not (Test-FontInstalled $FontFiles[$_]) })
+
+if ($MissingFonts.Count -eq 0) {
+    Write-Host "PlemolJP HS はインストール済みです。" -ForegroundColor DarkGreen
+} else {
+    try {
+        DownloadFile $FontUrl $FontZip $null 100MB
+        $hash = (Get-FileHash $FontZip -Algorithm SHA256).Hash
+        if ($hash -ne $FontSha256) {
+            Remove-Item $FontZip -Force
+            throw "SHA256 が一致しません ($hash)"
+        }
+
+        Write-Host "Installing PlemolJP HS fonts..."
+        $UserFontDir = "$env:LOCALAPPDATA\Microsoft\Windows\Fonts"
+        if (!(Test-Path $UserFontDir)) { New-Item -ItemType Directory -Path $UserFontDir | Out-Null }
+        $FontRegKey = "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
+        if (!(Test-Path $FontRegKey)) { New-Item -Path $FontRegKey -Force | Out-Null }
+
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+        Add-Type -Namespace Win32 -Name FontApi -MemberDefinition @'
+[DllImport("gdi32.dll", CharSet = CharSet.Unicode)]
+public static extern int AddFontResource(string lpFileName);
+[DllImport("user32.dll", CharSet = CharSet.Unicode)]
+public static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, UIntPtr wParam, IntPtr lParam, uint fuFlags, uint uTimeout, out UIntPtr lpdwResult);
+'@
+
+        $archive = [System.IO.Compression.ZipFile]::OpenRead($FontZip)
+        try {
+            foreach ($entryPath in $MissingFonts) {
+                $entry = $archive.GetEntry($entryPath)
+                if ($null -eq $entry) { throw "zip 内に $entryPath が見つかりません" }
+                $dest = Join-Path $UserFontDir $entry.Name
+                [System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $dest, $true)
+                New-ItemProperty -Path $FontRegKey -Name $FontFiles[$entryPath] -Value $dest -PropertyType String -Force | Out-Null
+                [void][Win32.FontApi]::AddFontResource($dest)
+                Write-Host "  installed: $($entry.Name)" -ForegroundColor DarkGreen
+            }
+        } finally {
+            $archive.Dispose()
+        }
+
+        # 起動中のアプリにフォントの追加を通知 (HWND_BROADCAST, WM_FONTCHANGE)
+        $result = [UIntPtr]::Zero
+        [void][Win32.FontApi]::SendMessageTimeout([IntPtr]0xffff, 0x001D, [UIntPtr]::Zero, [IntPtr]::Zero, 0x0002, 1000, [ref]$result)
+
+        Write-Host "PlemolJP HS をインストールしました。" -ForegroundColor Cyan
+    } catch {
+        Write-Host ""
+        Write-Host "[警告] PlemolJP HS フォントのインストールに失敗しました: $_" -ForegroundColor Yellow
+        Write-Host " Eclipse のセットアップは続行します。SPD を正しく表示するには、" -ForegroundColor Yellow
+        Write-Host " 次の URL から zip をダウンロードし、PlemolJP_HS フォルダ内の" -ForegroundColor Yellow
+        Write-Host " PlemolJPHS-Regular.ttf と PlemolJPHS-Bold.ttf を手動でインストールしてください。" -ForegroundColor Yellow
+        Write-Host "   $FontUrl" -ForegroundColor Yellow
+        Write-Host ""
+    }
+}
+
+# ===========================================
 # eclipse.ini の書き換え
 # ===========================================
 $IniPath = "$EclipseDir\eclipse.ini"

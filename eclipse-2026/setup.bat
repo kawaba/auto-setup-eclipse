@@ -15,6 +15,7 @@ echo このスクリプトは以下を実行します:
 echo - Eclipse 2026-09 のインストール
 echo - JDK 25 のセットアップ
 echo - Pleiades による日本語化
+echo - PlemolJP HS フォントのインストール (SPD 表示用)
 echo - プラグインインストールガイドの作成
 echo.
 echo プラグインは、Eclipse起動後に別途インストールが必要です。
