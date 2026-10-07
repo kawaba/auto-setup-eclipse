@@ -83,36 +83,27 @@ function InstallPlugin($name, $iu, $repo) {
 
 $plugins = @(
     # Web開発ツール - 基本
-    @{ Name = "Eclipse Web Tools"; IU = "org.eclipse.wst.web_ui.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2024-09" },
-    @{ Name = "Eclipse XML Editor"; IU = "org.eclipse.wst.xml_ui.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2024-09" },
-    @{ Name = "Eclipse JSON Editor"; IU = "org.eclipse.wst.json_ui.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2024-09" },
+    @{ Name = "Eclipse Web Tools"; IU = "org.eclipse.wst.web_ui.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2026-09" },
+    @{ Name = "Eclipse XML Editor"; IU = "org.eclipse.wst.xml_ui.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2026-09" },
+    @{ Name = "Eclipse JSON Editor"; IU = "org.eclipse.wst.json_ui.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2026-09" },
     
     # Wild Web Developer
-    @{ Name = "Wild Web Developer"; IU = "org.eclipse.wildwebdeveloper.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2024-09" },
-    @{ Name = "Wild Web Developer Node.js Embedded"; IU = "org.eclipse.wildwebdeveloper.embedder.node.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2024-09" },
+    @{ Name = "Wild Web Developer"; IU = "org.eclipse.wildwebdeveloper.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2026-09" },
+    @{ Name = "Wild Web Developer Node.js Embedded"; IU = "org.eclipse.wildwebdeveloper.embedder.node.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2026-09" },
     
     # WST Server Tools
-    @{ Name = "WST Server Adapters"; IU = "org.eclipse.wst.server_adapters.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2024-09" },
-    @{ Name = "WST Server UI"; IU = "org.eclipse.wst.server_ui.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2024-09" },
+    @{ Name = "WST Server Adapters"; IU = "org.eclipse.wst.server_adapters.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2026-09" },
+    @{ Name = "WST Server UI"; IU = "org.eclipse.wst.server_ui.feature.feature.group"; Repo = "https://download.eclipse.org/releases/2026-09" },
 
-    # Spring Tools 4(Eclipse 2024-09 / 4.33専用リポジトリ)
-    @{ Name = "Spring Tools 4 Main Feature"; IU = "org.springframework.boot.ide.main.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/4.32.2.RELEASE/e4.37/" },
+    # Spring Tools 5.4.0 (Eclipse 2026-09 / 4.41 専用リポジトリ)
+    #   旧 TOOLS/sts4/update/ は STS4 終了で 4.32.2 (e4.37) のまま。update/latest は次版で e4.42 に移るため固定
+    @{ Name = "Spring Tools Main Feature"; IU = "org.springframework.boot.ide.main.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/update/5.4.0.RELEASE/e4.41/,https://download.eclipse.org/releases/2026-09" },
+    @{ Name = "Spring Boot Language Server"; IU = "org.springframework.tooling.boot.ls.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/update/5.4.0.RELEASE/e4.41/,https://download.eclipse.org/releases/2026-09" },
+    @{ Name = "Spring Boot Dashboard"; IU = "org.springframework.ide.eclipse.boot.dash.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/update/5.4.0.RELEASE/e4.41/,https://download.eclipse.org/releases/2026-09" },
 
-#   @{ Name = "Spring Boot Language Server"; IU = "org.springframework.tooling.boot.ls.feature";               Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/e4.37/" },
-#   @{ Name = "Spring Boot Language Server"; IU = "org.springframework.tooling.boot.ls.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/latest/"  },
-#   @{ Name = "Spring Boot Language Server"; IU = "org.springframework.tooling.boot.ls.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/4.32.2.RELEASE/e4.37/" },
-    @{ Name = "Spring Boot Language Server"; IU = "org.springframework.tooling.boot.ls.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/latest/,https://download.eclipse.org/releases/latest/" },
-
-#   @{ Name = "Spring Boot Dashboard"; IU = "org.springframework.ide.eclipse.boot.dash.feature";               Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/e4.37/" },
-#   @{ Name = "Spring Boot Dashboard"; IU = "org.springframework.ide.eclipse.boot.dash.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/latest/" },
-#   @{ Name = "Spring Boot Dashboard"; IU = "org.springframework.ide.eclipse.boot.dash.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/4.32.2.RELEASE/e4.37/" },
-    @{ Name = "Spring Boot Dashboard"; IU = "org.springframework.ide.eclipse.boot.dash.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/TOOLS/sts4/update/latest/,https://download.eclipse.org/releases/latest/" },
-
-    # GitHub Copilot
-    @{ Name = "GitHub Copilot"; IU = "com.microsoft.copilot.eclipse.feature.feature.group"; Repo = "https://azuredownloads-g3ahgwb5b8bkbxhd.b01.azurefd.net/github-copilot/" },
+    # GitHub Copilot (lsp4e / tm4e / mylyn.wikitext 等の依存はリリースリポジトリから解決)
+    @{ Name = "GitHub Copilot"; IU = "com.microsoft.copilot.eclipse.feature.feature.group"; Repo = "https://azuredownloads-g3ahgwb5b8bkbxhd.b01.azurefd.net/github-copilot/,https://download.eclipse.org/releases/2026-09" }
     
-    # Java 25 Support
-    @{ Name = "Java 25 Support"; IU = "org.eclipse.jdt.javanextpatch.feature.group"; Repo = "https://download.eclipse.org/jdt/updates/4.37-P-builds/" }
 )
 
 $successCount = 0
@@ -180,7 +171,7 @@ if exist "$BaseDir\plugin-install.log" del /f /q "$BaseDir\plugin-install.log" 2
 
 rem フォルダを削除 (Eclipse/Javaのロック解除待ちを含む)
 if exist "$BaseDir\temp" rmdir /s /q "$BaseDir\temp" 2>nul
-#if exist "$BaseDir\workspace" rmdir /s /q "$BaseDir\workspace" 2>nul
+rem if exist "$BaseDir\workspace" rmdir /s /q "$BaseDir\workspace" 2>nul
 
 rem スクリプト類を削除
 del /f /q "$BaseDir\*.ps1" 2>nul
