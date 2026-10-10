@@ -102,7 +102,11 @@ $plugins = @(
     @{ Name = "Spring Boot Dashboard"; IU = "org.springframework.ide.eclipse.boot.dash.feature.feature.group"; Repo = "https://cdn.spring.io/spring-tools/release/update/5.4.0.RELEASE/e4.41/,https://download.eclipse.org/releases/2026-09" },
 
     # GitHub Copilot (lsp4e / tm4e / mylyn.wikitext 等の依存はリリースリポジトリから解決)
-    @{ Name = "GitHub Copilot"; IU = "com.microsoft.copilot.eclipse.feature.feature.group"; Repo = "https://azuredownloads-g3ahgwb5b8bkbxhd.b01.azurefd.net/github-copilot/,https://download.eclipse.org/releases/2026-09" }
+    @{ Name = "GitHub Copilot"; IU = "com.microsoft.copilot.eclipse.feature.feature.group"; Repo = "https://azuredownloads-g3ahgwb5b8bkbxhd.b01.azurefd.net/github-copilot/,https://download.eclipse.org/releases/2026-09" },
+
+    # SPD Editor (SPD を作成・編集するエディタ。GitHub Pages のアップデートサイトから入れる)
+    #   インストール時に更新先が登録されるので、以後は「ヘルプ → 更新の確認」で新しい版が届く
+    @{ Name = "SPD Editor"; IU = "work.powercampus.spd.feature.feature.group"; Repo = "https://kawaba.github.io/eclipse-spd-plugin/,https://download.eclipse.org/releases/2026-09" }
     
 )
 
