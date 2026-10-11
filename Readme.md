@@ -11,6 +11,8 @@
 7. **SPD 表示用のフォント PlemolJP HS をインストールする**  
 8. **Eclipse のフォントや構文色を設定する**
 
+また、SPD から生成した Thymeleaf のテンプレートで使うスタイルシート（`css/style.css`）も同梱しています（「(5) css フォルダの利用」を参照）。
+
 ---
 
 ## 実行手順
@@ -39,6 +41,7 @@
 
 - `eclipse`  
 - `workspace`  
+- `css`（Thymeleaf 用のスタイルシート。使い方は (5) を参照）  
 
 また、`eclipse` フォルダにはフォント設定用の  
 **`font-color-compiler-java25.epf`** がコピーされます。
@@ -59,6 +62,33 @@
 4. `eclipse/font-color-compiler-java25.epf` を選択  
 5. **［完了］** を押す  
 6. 再起動を求められたら **［再開］** を押す
+
+---
+
+### (5) css フォルダの利用
+
+`css` フォルダには **`style.css`** が入っています。  
+これは **SPD から生成した Thymeleaf のテンプレートで利用するスタイルシート**です。  
+生成されるテンプレートは、次のように `/css/style.css` を読み込みます。
+
+```html
+<link rel="stylesheet" th:href="@{/css/style.css}">
+```
+
+そのため、インストール後は **各プロジェクトの `static/` に `css` フォルダごとコピー**して利用してください。
+
+```
+（プロジェクト）
+└─ src/main/resources/
+   ├─ static/
+   │  └─ css/
+   │     └─ style.css   ← ここに配置
+   └─ templates/
+      └─ （SPD から生成した HTML）
+```
+
+- `css` フォルダはセットアップ後も残るので、新しいプロジェクトを作るたびにここからコピーします。  
+- デザインを変えたい場合は、プロジェクトにコピーした `style.css` を編集してください。
 
 ---
 
