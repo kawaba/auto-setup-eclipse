@@ -1,7 +1,7 @@
 ﻿# Gemini Gem用 ガイドライン（共通）— SPD → Spring Boot コード生成用
 
 > **このファイルは自動生成したものである。直接編集しないこと。**
-> 元：`SpringBoot/GitHub-Copilot/copilot-instructions.md` v1.5.1、`instructions/spd-core.instructions.md`（SPD-CORE v2.12.0）
+> 元：`SpringBoot/GitHub-Copilot/copilot-instructions.md` v1.5.2、`instructions/spd-core.instructions.md`（SPD-CORE v2.12.0）
 > 変換：`SpringBoot/Gemini-Gem/build/build-gem.ps1`
 > Gem の「知識」にアップロードして使う。Gem の「カスタム指示」欄には `カスタム指示.md` の内容を貼る。
 
@@ -596,7 +596,7 @@ model.addAttribute("memberList", ...);
 ```
 コントローラー側                               テンプレート側
 └─メソッド：receive                            └─フォーム：→ POST /test
-      ├─マッピング：POST /test                        └─名前 ⇒ name
+      ├─マッピング：POST /test                        └─名前＜text＞：name
       └─引数
             └─名前：@パラメータ String name = ""
 ```
