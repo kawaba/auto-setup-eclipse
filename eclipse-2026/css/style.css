@@ -366,3 +366,56 @@ form > a {
 .改行保持 {
   white-space: pre-wrap;
 }
+
+/* =========================================================
+   リンクをボタン風に表示する（class="ボタン風"）
+   例：<a href="/list" class="ボタン風">一覧に戻る</a>
+   「戻る」「キャンセル」用：補助ボタン（type="reset"/"button"）と同じ見た目にする
+   ========================================================= */
+a.ボタン風,
+a.ボタン風:link,
+a.ボタン風:visited {
+    display: inline-block;
+    padding: 10px 24px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: normal;          /* <button> と高さをそろえる */
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    border: none;
+    border-radius: 4px;
+    background-color: #95a5a6;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+a.ボタン風:hover,
+a.ボタン風:active {
+    background-color: #7f8c8d;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+a.ボタン風:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(149, 165, 166, 0.4);
+}
+
+/* =========================================================
+   td 内の要素の配置（class="中央揃え" / "右揃え" / "左揃え"）
+   例：<td class="右揃え">1,200円</td>
+   ========================================================= */
+td.中央揃え {
+    text-align: center;
+}
+
+td.右揃え {
+    text-align: right;
+}
+
+td.左揃え {
+    text-align: left;
+}
