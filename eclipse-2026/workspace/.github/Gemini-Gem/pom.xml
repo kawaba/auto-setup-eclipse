@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Gemini Gem のナレッジに添付する pom.xml（SPD → Spring Boot コード生成用）。
+  Gemini SKILL のナレッジとして登録する pom.xml（SPD → Spring Boot コード生成用）。
   授業で使うプロジェクト（autosetup-vscode-java-spring の workspace/bookstore2）の pom.xml をそのまま使っている。
-  Gem はこのファイルで、インポートしてよいライブラリを判断する。
+  スキルはこのファイルで、インポートしてよいライブラリを判断する。
   チャットに実際のプロジェクトの pom.xml が添付された場合は、そちらが優先される。
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

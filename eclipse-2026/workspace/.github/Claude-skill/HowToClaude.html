@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPDからSpringBoot、Thymeleafのコード生成スキル Claude版 作成・利用ガイド</title>
+<style>
+/* ---- フォント指定 ----
+   本文＝BIZ UDPゴシック（プロポーショナル）／見出し＝游ゴシック体（太字）／
+   SPD・Javaコード＝BIZ UDゴシック（等幅）
+   フォント名は環境ごとに登録名が異なるため、日本語名・英語名を併記する。 */
+body, table, th, td, blockquote {
+   font-family: "BIZ UDPゴシック", "BIZ UDPGothic", "Meiryo", "メイリオ",
+                "Yu Gothic UI", "Hiragino Sans", sans-serif;
+}
+
+/* SPD・Javaコードは等幅のBIZ UDゴシック（Pなし＝等幅。半角＝全角の1/2幅で罫線が揃う） */
+pre, code {
+   font-family: "BIZ UDゴシック", "BIZ UDGothic",
+                "MS ゴシック", "MS Gothic", monospace;
+}
+
+/* 見出しは游ゴシック体の太字 */
+h1, h2, h3, h4, h5, h6 {
+   font-family: "游ゴシック体", "YuGothic", "游ゴシック Medium", "Yu Gothic Medium",
+                "游ゴシック", "Yu Gothic", sans-serif;
+   font-weight: bold;
+}
+
+/* ---- ページ全体（最大幅900px・中央揃え。狭い画面では画面幅に合わせる） ---- */
+html {
+   background-color: #eef0f3;
+   -webkit-text-size-adjust: 100%;
+   text-size-adjust: 100%;
+}
+body {
+   width: auto;
+   max-width: 900px;
+   box-sizing: border-box;
+   margin: 26px auto;
+   padding: 31px 44px 37px;
+   background-color: #ffffff;
+   border: 1px solid #dde1e6;
+   border-radius: 6px;
+   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+   color: #222;
+   font-size: 11pt;
+   line-height: 1.75;
+   overflow-wrap: break-word;   /* 長いURL・英単語で横にはみ出さない */
+}
+
+/* 画像などが親幅を超えないようにする */
+img, video, svg { max-width: 100%; height: auto; }
+
+/* ---- 見出し ---- */
+h1 {
+   font-size: 15.5pt;
+   line-height: 1.4;
+   color: #1f3a5f;
+   border-bottom: 3px solid #1f3a5f;
+   padding-bottom: 6.5pt;
+   margin: 0 0 15.5pt;
+}
+h2 {
+   font-size: 13.5pt;
+   line-height: 1.4;
+   color: #1f3a5f;
+   border-left: 5px solid #4a78a8;
+   border-bottom: 1px solid #d8e0ea;
+   padding: 3pt 0 3pt 8pt;
+   margin: 24pt 0 9pt;
+}
+h3 {
+   font-size: 12pt;
+   line-height: 1.4;
+   color: #2b4c74;
+   padding-bottom: 2pt;
+   border-bottom: 1px dashed #c9d4e1;
+   margin: 17.5pt 0 6.5pt;
+}
+h4 { font-size: 11pt; color: #2b4c74; margin: 13pt 0 4.5pt; }
+h5, h6 { font-size: 10pt; color: #2b4c74; margin: 9pt 0 3pt; }
+
+/* ---- 本文・リスト ---- */
+p  { margin: 6.5pt 0; }
+ul, ol { margin: 6.5pt 0; padding-left: 20pt; }
+li { margin: 3pt 0; }
+li::marker { color: #4a78a8; }
+ol > li::marker { font-weight: bold; }
+strong { color: #1a1a1a; }
+
+/* ---- コードブロック（SPD・Java共通） ----
+   罫線や字下げを崩さないよう折り返さず、はみ出す分は横スクロールさせる */
+pre {
+   font-size: 9.5pt;
+   line-height: 1.5;
+   white-space: pre;
+   overflow-x: auto;
+   -webkit-overflow-scrolling: touch;
+   max-width: 100%;
+   box-sizing: border-box;
+   background-color: #f7f9f7;
+   border: 1px solid #e2e8e2;
+   border-left: 4px solid #9fbf9f;   /* SPD・その他 */
+   border-radius: 4px;
+   padding: 8pt 11pt;
+   margin: 8pt 0 11pt;
+   tab-size: 4;
+   -moz-tab-size: 4;
+   overflow-wrap: normal;
+}
+pre code {
+   font-size: inherit;
+   background: none;
+   border: none;
+   padding: 0;
+   color: #222;
+   white-space: pre;
+   overflow-wrap: normal;
+   word-break: normal;
+}
+/* Javaコードは左罫の色を変えて区別する */
+pre.java { border-left-color: #7fa3cf; background-color: #f6f9fd; border-color: #dfe7f1; }
+
+/* ---- インラインコード ---- */
+code {
+   font-size: 92%;
+   color: #8a2d3b;
+   background-color: #f4f1f2;
+   border: 1px solid #e8e1e3;
+   border-radius: 3px;
+   padding: 0 4px;
+   overflow-wrap: anywhere;   /* 長いファイル名でも行内で折り返す */
+}
+
+/* ---- 表（狭い画面では表だけ横スクロール） ---- */
+table {
+   border-collapse: collapse;
+   font-size: 9.5pt;
+   line-height: 1.5;
+   margin: 8pt 0;
+   max-width: 100%;
+}
+th, td {
+   border: 1px solid #d5dbe2;
+   padding: 3.5pt 8pt;
+   text-align: left;
+   vertical-align: top;
+}
+th { background-color: #e9eef4; color: #1f3a5f; }
+tr:nth-child(even) td { background-color: #fafbfc; }
+
+/* ---- 引用・区切り線 ---- */
+blockquote {
+   margin: 8pt 0;
+   padding: 4.5pt 11pt;
+   border-left: 4px solid #e0b75a;
+   border-radius: 0 4px 4px 0;
+   background-color: #fdf9ee;
+   color: #333;
+}
+blockquote p { margin: 3pt 0; }
+hr { border: none; border-top: 1px solid #d3d8de; margin: 22pt 0; }
+
+/* ---- チェックリスト ---- */
+ul.checklist { list-style: none; padding-left: 3.5pt; }
+ul.checklist li { text-indent: -1.4em; padding-left: 1.4em; }
+
+/* ---- タブレット（〜960px）：外側の余白を確保しつつ幅いっぱいに ---- */
+@media (max-width: 960px) {
+   body {
+      margin: 16px;
+      padding: 26px 32px 30px;
+   }
+}
+
+/* ---- スマートフォン（〜600px）：カード装飾を外し、余白・文字を詰める ---- */
+@media (max-width: 600px) {
+   html { background-color: #ffffff; }
+   body {
+      margin: 0;
+      padding: 18px 16px 24px;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      font-size: 10.5pt;
+      line-height: 1.7;
+   }
+   h1 { font-size: 14pt; }
+   h2 { font-size: 12.5pt; margin-top: 20pt; }
+   h3 { font-size: 11.5pt; }
+   ul, ol { padding-left: 16pt; }
+   pre { font-size: 9pt; padding: 7pt 9pt; }
+   blockquote { padding: 4pt 9pt; }
+   table {
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+   }
+   hr { margin: 18pt 0; }
+}
+
+/* ---- 印刷時は背景・影・外枠を外す ---- */
+@media print {
+   html { background: none; }
+   body { width: auto; max-width: none; margin: 0; padding: 0; border: none; box-shadow: none; }
+   pre { white-space: pre; overflow: visible; }
+}
+</style>
+</head>
+<body>
+<h1>Claudeの"スキル"を使ってSpringBoot、thymeleafのコードを生成する方法</h1>
+<p>構造化プログラム設計図（SPD：Structured Programming Diagram）を読み込ませ、Spring Boot（Java）やThymeleaf（HTML）のソースコードを自動生成するためのスキルを、Claude（ウェブ版の claude.ai）に登録して使う方法を解説します。</p>
+<p>スキルは、無料プランでも使えます。登録する前に、下の「2. 準備」の設定をしてください。</p>
+<hr />
+<h2>1. スキルファイルの構成</h2>
+<p>スキルは、1つの zip ファイル <code>spd-to-springboot-generator.zip</code> にまとめてあります。<a href="https://github.com/kawaba/SPD2Code/raw/main/SpringBoot/Claude-skill/spd-to-springboot-generator.zip" target="_blank">こちらから spd-to-springboot-generator.zip をダウンロード</a>してください。<a href="https://github.com/kawaba/SPD2Code/archive/refs/heads/main.zip" target="_blank">SPD2Code-main.zip</a> をダウンロードして解凍した場合は、その中の SpringBoot/Claude-skill フォルダにあります。</p>
+<p><strong>zip ファイルは解凍せずに、そのまま登録します。</strong> zip の中身は次のとおりです。</p>
+<pre><code class="language-text">spd-to-springboot-generator
+├─SKILL.md                      # 全体の制御と変換ワークフローを定義する指示書
+└─references                    # 変換ルール（節ごとに分けたファイル）
+    ├─00-unfilled.md            # SPDの未記入部分は生成しない
+    ├─09-…md                    # 基本的なSPD記述ルールとJava変換ルール
+    ├─10-skill-operation.md     # スキルでの運用（1回に1ファイルずつ生成するなど）
+    ├─11-controller-template.md # コントローラーとテンプレートの対応
+    ├─20-…md                    # Spring Boot用SPD記述ルールと変換ルール
+    ├─30-…md                    # Thymeleaf用SPD記述ルールとHTML変換ルール
+    └─pom.xml                   # プロジェクトの依存関係・設定ファイル
+</code></pre>
+<h3>各ファイルの役割</h3>
+<ul>
+<li><strong><code>SKILL.md</code></strong>:<br>
+　AIがいつ・どのようにこのスキルを起動し、どのファイルを参照してコードを生成すべきかを指示する中心的な台本です。</li>
+<li><strong><code>references</code> フォルダ</strong>: <br>
+　変換ルールを、節ごとのファイルに分けたものです。AIは、SPDに合わせて必要なファイルだけを読みます。1回に読む量が少なくなるので、使用量の上限に達しにくくなります。</li>
+<li><strong><code>pom.xml</code></strong>: <br>
+　利用するライブラリやフレームワークのバージョン情報をAIに正しく認識させるための設定ファイル。</li>
+</ul>
+<hr />
+<h2>2. 準備（最初に1回だけ）</h2>
+<p>スキルは「コード実行とファイル作成」の機能を使って動きます。この機能をオンにしておきます。</p>
+<ol>
+<li>claude.ai にログインし、左下のアカウント名から <strong>Settings（設定）</strong> を開きます。</li>
+<li><strong>Capabilities（機能）</strong> を開き、<strong>Code execution and file creation（コード実行とファイル作成）</strong> をオンにします。</li>
+</ol>
+<h3>コードが崩れて表示されるとき（Edge）</h3>
+<p>生成されたコードの改行がつながったり、<code>return</code> が「帰還」、<code>"/date"</code> が「「/日付」」のように変わって表示されたりする場合は、ブラウザーの翻訳機能がページを機械翻訳しています。コピーボタンでコピーしたコードは正しいので、コード自体には問題ありません。Edge では、次の手順で英語のページを自動で翻訳しないようにします。</p>
+<ol>
+<li>アドレスバーに <code>edge://settings/languages</code> と入力して開きます。</li>
+<li>「常に翻訳する言語」などの一覧に「英語」（「英語 (米国)」なども）があれば、すべて削除します。</li>
+</ol>
+<hr />
+<h2>3. スキルの登録手順</h2>
+<ol>
+<li><strong>Customize（カスタマイズ）</strong> の <strong>Skills（スキル）</strong> を開きます。</li>
+<li><strong>＋</strong> を押し、<strong>Create skill（スキルを作成）</strong> → <strong>Upload a skill（スキルをアップロード）</strong> を選びます。</li>
+<li>ダウンロードした <code>spd-to-springboot-generator.zip</code> を選びます。</li>
+<li>スキルの一覧に <code>spd-to-springboot-generator</code> が表示され、オンになっていれば登録完了です。</li>
+</ol>
+<p>画面の項目名は、表示の言語や画面の変更によって、上と少し違うことがあります。</p>
+<h3>スキルを新しくするとき</h3>
+<p>変換ルールが新しくなったときは、一覧から古い <code>spd-to-springboot-generator</code> を削除してから、新しい zip を登録します。</p>
+<hr />
+<h2>4. スキルの利用方法</h2>
+<h3>基本的な使い方</h3>
+<p>チャットに、SPDのテキストを貼り付けて依頼します。AIはSPDのタイトル（<code>エンティティ:</code>・<code>コントローラー:</code>・<code>テンプレート:</code> など）を見て、自動でスキルを使います。確実に使わせたいときは、依頼文の中でスキルの名前を挙げます。
+一回に1つのSPDを変換してください。</p>
+<blockquote>
+<p><strong>プロンプト例：</strong><br>
+「（SPDを貼り付けた後、）このSPDをもとに、Spring Bootのソースコードを生成してください」<br>
+「（SPDを貼り付けた後、）spd-to-springboot-generator スキルを使って、このSPDからThymeleafのテンプレートを生成してください」</p>
+</blockquote>
+<h3>期待される動作</h3>
+<ol>
+<li>AIが <code>SKILL.md</code> の指示を読み、SPDに合わせて <code>references</code> フォルダの必要なファイルを読みます。</li>
+<li><code>pom.xml</code> の依存関係に合わせた正しいアノテーションや構文を選択します。</li>
+<li>規約に準拠したJavaコード（またはThymeleafテンプレート）を出力します。</li>
+</ol>
+<h3>注意点</h3>
+<ol>
+<li>一回に1つのSPDから1つのコードを生成してください。</li>
+<li>ただし、コード生成に必要なJavaファイルやテンプレートがある場合は、チャット欄にそれらを先にアップロードしておきます。</li>
+<li>例えば、テンプレートファイルを生成するには、それを使用しているコントローラークラスをアップロードしておきます。</li>
+<li>また、Formクラスを生成する場合は、エンティティクラスをアップロードしておきます。</li>
+<li>一般的には、エンティティクラス、フォームクラス、サービスクラス、コントローラークラスなどの関連ファイルをアップロードしておきます。</li>
+<li>無料プランでは、使用量に上限があります。1つの会話が長くなるほど使用量が増えるので、別の作業に移るときは新しいチャットを始め、必要なファイルをアップロードし直してください。</li>
+</ol>
+<hr />
+</body>
+</html>

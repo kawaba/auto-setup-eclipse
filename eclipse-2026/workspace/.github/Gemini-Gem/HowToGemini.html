@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPDからSpringBoot、Thymeleafのコード生成スキル 作成・利用ガイド</title>
+<style>
+/* ---- フォント指定 ----
+   本文＝BIZ UDPゴシック（プロポーショナル）／見出し＝游ゴシック体（太字）／
+   SPD・Javaコード＝BIZ UDゴシック（等幅）
+   フォント名は環境ごとに登録名が異なるため、日本語名・英語名を併記する。 */
+body, table, th, td, blockquote {
+   font-family: "BIZ UDPゴシック", "BIZ UDPGothic", "Meiryo", "メイリオ",
+                "Yu Gothic UI", "Hiragino Sans", sans-serif;
+}
+
+/* SPD・Javaコードは等幅のBIZ UDゴシック（Pなし＝等幅。半角＝全角の1/2幅で罫線が揃う） */
+pre, code {
+   font-family: "BIZ UDゴシック", "BIZ UDGothic",
+                "MS ゴシック", "MS Gothic", monospace;
+}
+
+/* 見出しは游ゴシック体の太字 */
+h1, h2, h3, h4, h5, h6 {
+   font-family: "游ゴシック体", "YuGothic", "游ゴシック Medium", "Yu Gothic Medium",
+                "游ゴシック", "Yu Gothic", sans-serif;
+   font-weight: bold;
+}
+
+/* ---- ページ全体（最大幅900px・中央揃え。狭い画面では画面幅に合わせる） ---- */
+html {
+   background-color: #eef0f3;
+   -webkit-text-size-adjust: 100%;
+   text-size-adjust: 100%;
+}
+body {
+   width: auto;
+   max-width: 900px;
+   box-sizing: border-box;
+   margin: 26px auto;
+   padding: 31px 44px 37px;
+   background-color: #ffffff;
+   border: 1px solid #dde1e6;
+   border-radius: 6px;
+   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+   color: #222;
+   font-size: 11pt;
+   line-height: 1.75;
+   overflow-wrap: break-word;   /* 長いURL・英単語で横にはみ出さない */
+}
+
+/* 画像などが親幅を超えないようにする */
+img, video, svg { max-width: 100%; height: auto; }
+
+/* ---- 見出し ---- */
+h1 {
+   font-size: 15.5pt;
+   line-height: 1.4;
+   color: #1f3a5f;
+   border-bottom: 3px solid #1f3a5f;
+   padding-bottom: 6.5pt;
+   margin: 0 0 15.5pt;
+}
+h2 {
+   font-size: 13.5pt;
+   line-height: 1.4;
+   color: #1f3a5f;
+   border-left: 5px solid #4a78a8;
+   border-bottom: 1px solid #d8e0ea;
+   padding: 3pt 0 3pt 8pt;
+   margin: 24pt 0 9pt;
+}
+h3 {
+   font-size: 12pt;
+   line-height: 1.4;
+   color: #2b4c74;
+   padding-bottom: 2pt;
+   border-bottom: 1px dashed #c9d4e1;
+   margin: 17.5pt 0 6.5pt;
+}
+h4 { font-size: 11pt; color: #2b4c74; margin: 13pt 0 4.5pt; }
+h5, h6 { font-size: 10pt; color: #2b4c74; margin: 9pt 0 3pt; }
+
+/* ---- 本文・リスト ---- */
+p  { margin: 6.5pt 0; }
+ul, ol { margin: 6.5pt 0; padding-left: 20pt; }
+li { margin: 3pt 0; }
+li::marker { color: #4a78a8; }
+ol > li::marker { font-weight: bold; }
+strong { color: #1a1a1a; }
+
+/* ---- コードブロック（SPD・Java共通） ----
+   罫線や字下げを崩さないよう折り返さず、はみ出す分は横スクロールさせる */
+pre {
+   font-size: 9.5pt;
+   line-height: 1.5;
+   white-space: pre;
+   overflow-x: auto;
+   -webkit-overflow-scrolling: touch;
+   max-width: 100%;
+   box-sizing: border-box;
+   background-color: #f7f9f7;
+   border: 1px solid #e2e8e2;
+   border-left: 4px solid #9fbf9f;   /* SPD・その他 */
+   border-radius: 4px;
+   padding: 8pt 11pt;
+   margin: 8pt 0 11pt;
+   tab-size: 4;
+   -moz-tab-size: 4;
+   overflow-wrap: normal;
+}
+pre code {
+   font-size: inherit;
+   background: none;
+   border: none;
+   padding: 0;
+   color: #222;
+   white-space: pre;
+   overflow-wrap: normal;
+   word-break: normal;
+}
+/* Javaコードは左罫の色を変えて区別する */
+pre.java { border-left-color: #7fa3cf; background-color: #f6f9fd; border-color: #dfe7f1; }
+
+/* ---- インラインコード ---- */
+code {
+   font-size: 92%;
+   color: #8a2d3b;
+   background-color: #f4f1f2;
+   border: 1px solid #e8e1e3;
+   border-radius: 3px;
+   padding: 0 4px;
+   overflow-wrap: anywhere;   /* 長いファイル名でも行内で折り返す */
+}
+
+/* ---- 表（狭い画面では表だけ横スクロール） ---- */
+table {
+   border-collapse: collapse;
+   font-size: 9.5pt;
+   line-height: 1.5;
+   margin: 8pt 0;
+   max-width: 100%;
+}
+th, td {
+   border: 1px solid #d5dbe2;
+   padding: 3.5pt 8pt;
+   text-align: left;
+   vertical-align: top;
+}
+th { background-color: #e9eef4; color: #1f3a5f; }
+tr:nth-child(even) td { background-color: #fafbfc; }
+
+/* ---- 引用・区切り線 ---- */
+blockquote {
+   margin: 8pt 0;
+   padding: 4.5pt 11pt;
+   border-left: 4px solid #e0b75a;
+   border-radius: 0 4px 4px 0;
+   background-color: #fdf9ee;
+   color: #333;
+}
+blockquote p { margin: 3pt 0; }
+hr { border: none; border-top: 1px solid #d3d8de; margin: 22pt 0; }
+
+/* ---- チェックリスト ---- */
+ul.checklist { list-style: none; padding-left: 3.5pt; }
+ul.checklist li { text-indent: -1.4em; padding-left: 1.4em; }
+
+/* ---- タブレット（〜960px）：外側の余白を確保しつつ幅いっぱいに ---- */
+@media (max-width: 960px) {
+   body {
+      margin: 16px;
+      padding: 26px 32px 30px;
+   }
+}
+
+/* ---- スマートフォン（〜600px）：カード装飾を外し、余白・文字を詰める ---- */
+@media (max-width: 600px) {
+   html { background-color: #ffffff; }
+   body {
+      margin: 0;
+      padding: 18px 16px 24px;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      font-size: 10.5pt;
+      line-height: 1.7;
+   }
+   h1 { font-size: 14pt; }
+   h2 { font-size: 12.5pt; margin-top: 20pt; }
+   h3 { font-size: 11.5pt; }
+   ul, ol { padding-left: 16pt; }
+   pre { font-size: 9pt; padding: 7pt 9pt; }
+   blockquote { padding: 4pt 9pt; }
+   table {
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+   }
+   hr { margin: 18pt 0; }
+}
+
+/* ---- 印刷時は背景・影・外枠を外す ---- */
+@media print {
+   html { background: none; }
+   body { width: auto; max-width: none; margin: 0; padding: 0; border: none; box-shadow: none; }
+   pre { white-space: pre; overflow: visible; }
+}
+</style>
+</head>
+<body>
+<h1>Geminiの"スキル"を使ってSpringBoot、thymeleafのコードを生成する方法</h1>
+<p>構造化プログラム設計図（SPD：Structured Programming Diagram）を読み込ませ、Spring Boot（Java）やThymeleaf（HTML）のソースコードを自動生成するためのカスタムスキルを作成・活用する方法を解説します。</p>
+<p>このスキルは、AIの「マルチファイル構成（指示書＋参考資料の組み合わせ）」を利用することで、複雑な変換ルールやプロジェクトの仕様を正確に維持しながらコード生成を行えるのが特徴です。</p>
+<hr />
+<h2>1. スキルファイルの構成</h2>
+<p>本スキルは、AIへの指示をまとめたメインの指示書（<code>SKILL.md</code>）と、変換ルールや設定を記述した複数の知識ファイルで構成されます。これらのファイルは、<a href="https://github.com/kawaba/SPD2Code/archive/refs/heads/main.zip" target="_blank">こちらからSPD2Code-main.zipをダウンロード</a>し、解凍すると、その中のSpringBoot/Gemini-skillフォルダに含まれます。</p>
+<pre><code class="language-text">SKILL.md                      # 全体の制御と変換ワークフローを定義する指示書
+ガイドライン-共通.txt         # 基本的なSPD記述ルールとJava変換ルール
+ガイドライン-SpringBoot.txt   # Spring Boot用SPD記述ルールと変換ルール
+ガイドライン-Thymeleaf.txt    # Thymeleaf用SPD記述ルールとHTML変換ルール
+pom.xml                       # プロジェクトの依存関係・設定ファイル
+</code></pre>
+<h3>各ファイルの役割</h3>
+<ul>
+<li><strong><code>SKILL.md</code></strong>:<br>
+　AIがいつ・どのようにこのスキルを起動し、どの順番でファイルを参照してコードを生成すべきかを指示する中心的な台本です。</li>
+<li><strong><code>ガイドライン-共通.txt</code></strong>: <br>
+　SPDの基本的な要素（順次、選択、繰り返しなど）の読み方と基本的なJavaへのマッピングルール。</li>
+<li><strong><code>ガイドライン-SpringBoot.txt</code></strong>: <br>
+　ControllerやService、RepositoryなどのSpring Boot特有の構造への変換ルール。</li>
+<li><strong><code>ガイドライン-Thymeleaf.txt</code></strong>: <br>
+　画面設計用のSPDからThymeleafを使用したHTMLテンプレートへの変換ルール。</li>
+<li><strong><code>pom.xml</code></strong>: <br>
+　利用するライブラリやフレームワークのバージョン情報をAIに正しく認識させるための設定ファイル。</li>
+</ul>
+<hr />
+<h2>2. スキルの作成・登録手順</h2>
+<p>5つのファイルをAI環境に登録し、カスタムスキルとして保存します。</p>
+<ol>
+<li><strong>AI環境へのアップロード</strong>
+AIのチャット画面に、すべてのファイルを同時にドラッグ＆ドロップ（または添付）します。</li>
+<li><strong>登録の指示</strong>
+チャット欄に以下のように入力して実行します。
+<blockquote>
+<p>「アップロードした <code>SKILL.md</code> と、知識であるそれ以外の4つのファイルを使って、SPDからSpring Boot、Thymeleafのコードを生成するマルチファイル構成のスキルを作成・保存してください。」</p>
+</blockquote>
+</li>
+<li><strong>保存完了</strong>
+AI側でシステムツールが実行され、いつでも呼び出し可能なカスタムスキルとして登録されます。</li>
+</ol>
+<hr />
+<h2>3. スキルの利用方法</h2>
+<p>作成したスキルは、日常の開発作業の中で次のように呼び出して利用できます。</p>
+<h3>基本的な使い方</h3>
+<p>チャットに、SPDのテキストを貼り付け、スキルを呼び出します。
+一回に1つのSPDを変換してください。</p>
+<blockquote>
+<p><strong>プロンプト例：</strong><br>
+「（SPDを貼り付けた後、）このSPDをもとに、Spring Bootのソースコードを生成してください」<br>
+「（SPDを貼り付けた後、）このSPDをもとに、Thymeleafのソースコードを生成してください」</p>
+</blockquote>
+<h3>期待される動作</h3>
+<ol>
+<li>AIが自動的に <code>SKILL.md</code> の指示と知識ファイルのルールを参照します。</li>
+<li><code>pom.xml</code> の依存関係に合わせた正しいアノテーションや構文を選択します。</li>
+<li>規約に準拠した高品質なJavaコード（またはThymeleafテンプレート）を出力します。</li>
+</ol>
+<h3>注意点</h3>
+<ol>
+<li>一回に1つのSPDから1つのコードを生成してください。</li>
+<li>ただし、コード生成に必要なJavaファイルやテンプレートがある場合は、チャット欄にそれらを先にアップロードしておきます。</li>
+<li>例えば、テンプレートファイルを生成するには、それを使用しているコントローラークラスをアップロードしておきます。</li>
+<li>また、Formクラスを生成する場合は、エンティティクラスをアップロードしておきます。</li>
+<li>一般的には、エンティティクラス、フォームクラス、サービスクラス、コントローラークラスなどの関連ファイルをアップロードしておきます。</li>
+</ol>
+<hr />
+</body>
+</html>
